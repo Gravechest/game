@@ -4,10 +4,14 @@ z2 = 0
 z3 = 0
 y = 0
 x = 0
+enl = 0
 aps = 0
 ntclsd = 0
 mapgen = []
 opendoors = []
+enemie = []
+enemies = []
+enemiel = []
 while True:
     while z1 < 7:
         if z3 == 3:
@@ -75,12 +79,27 @@ while True:
                 rnd = "#"
             elif atrib < 80:
                 rnd = "C"
-            elif rnd == ["."]:
+            elif (y+(x*100)) in enemie:
+                enemie.remove(y+(x*100))
+                enemies.append(y+(x*100))
+                if z2 < 3:
+                    enemiel.append(y+((x+1)*100))
+                elif z2 > 2:
+                    enemiel.append(y+((x-1)*100))
                 rnd = "."
-            if y+(x*100) in opendoors:
+            elif (y+(x*100)) in enemiel:
+                enemiel.remove(y+(x*100))
+                enemie.append(y+(x*100))
+                rnd = "E"
+            elif atrib > 80 and atrib < 160 and (y+(x*100)) not in enemies:
+                rnd = "E"
+                enemie.append(y+(x*100))
+            elif y+(x*100) in opendoors:
                 rnd = "c"
-            if z2 == 3 and y == 3 + aps:
+            elif z2 == 3 and y == 3 + aps:
                 rnd = "@"
+            else:
+                rnd = "."
             mapgen.append(rnd)
             y = y + 1
             if z1 == 6:
