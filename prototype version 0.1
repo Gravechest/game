@@ -4,6 +4,7 @@ z2 = 0
 z3 = 0
 y = 0
 x = 0
+turn = 0
 enl = 0
 aps = 0
 ntclsd = 0
@@ -79,27 +80,74 @@ while True:
                 rnd = "#"
             elif atrib < 80:
                 rnd = "C"
-            elif (y+(x*100)) in enemie:
-                enemie.remove(y+(x*100))
-                enemies.append(y+(x*100))
-                if z2 < 3:
-                    enemiel.append(y+((x+1)*100))
-                elif z2 > 2:
-                    enemiel.append(y+((x-1)*100))
-                rnd = "."
+            elif (y+((x+1)*100)) in enemie and z2 > 3:
+                if turn == 1:
+                    random.seed(y+((x)*100))
+                    rnd = random.choices((".","#"))
+                    if rnd != ["#"]:
+                        enemie.remove(y+((x+1)*100))
+                        enemies.append(y+((x+1)*100))
+                        enemie.append(y+(x*100))
+                        rnd = "E"
+                    else:
+                        random.seed(y+(x*100))
+                        rnd = random.choices((".","#"))
+                        rnd = "."
+                if turn == 0:
+                    rnd = "."
+            elif (y+(x*100)) in enemie and z2 < 3:
+                if turn == 1:
+                    random.seed(y+((x+1)*100))
+                    rnd = random.choices((".","#"))
+                    if rnd != ["#"]:
+                        enemie.remove(y+(x*100))
+                        enemies.append(y+(x*100))
+                        enemiel.append(y+((x+1)*100))
+                        rnd = "."
+                    else:
+                        random.seed(y+(x*100))
+                        rnd = random.choices((".","#"))
+                        rnd = "E"
+                if turn == 0:
+                    rnd = "E"
+            elif (y+(x*100)) in enemie and z2 == 3 and y < 3 + aps:
+                if turn == 1:
+                    random.seed((y+1)+(x*100))
+                    rnd = random.choices((".","#"))
+                    if rnd != ["#"]:
+                        enemie.remove(y+(x*100))
+                        enemies.append(y+(x*100))
+                        enemie.append((y+1)+(x*100))
+                        rnd = "E"
+                    else:
+                        random.seed(y+(x*100))
+                        rnd = random.choices((".","#"))
+                        rnd = "."
+                if turn == 0:
+                    rnd = "."
+            elif ((y+1)+(x*100)) in enemie and z2 == 3 and y > 2 + aps:
+                if turn == 1:
+                    enemie.remove(y+(x*100))
+                    enemies.append(y+(x*100))
+                    enemiel.append((y+1)+(x*100))
+                    rnd = "E"
+                if turn == 0:
+                    rnd = "."
             elif (y+(x*100)) in enemiel:
-                enemiel.remove(y+(x*100))
-                enemie.append(y+(x*100))
+                if turn == 1:
+                    enemie.append(y+(x*100))
+                    enemiel.remove(y+(x*100))
                 rnd = "E"
             elif atrib > 80 and atrib < 160 and (y+(x*100)) not in enemies:
                 rnd = "E"
                 enemie.append(y+(x*100))
             elif y+(x*100) in opendoors:
                 rnd = "c"
-            elif z2 == 3 and y == 3 + aps:
-                rnd = "@"
             else:
                 rnd = "."
+            if z2 == 3 and y == 3 + aps:
+                rnd = "@"
+            enl = 0
             mapgen.append(rnd)
             y = y + 1
             if z1 == 6:
@@ -143,3 +191,13 @@ while True:
                 z2 = 0
             aps = y
             ntclsd = 0
+            if turn == 0:
+                turn = 2
+            turn = turn - 1
+
+
+
+            
+
+
+
