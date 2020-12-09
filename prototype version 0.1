@@ -16,112 +16,103 @@ enemies = []
 enemiel = []
 walls = []
 srndwalls = []
+doors = []
 print("welkom to the alpha of this roguelike")
 print("the controls are as following\nnumpad for moving arount the map, ""o"" for opening and closing doors\nI hope you find this intresting\n")
 while True:
     while z1 < 120:
         if z3 == 5:
-            y = y + 4
-            x = x + 5
-            random.seed(y+(x*100))
-            rnd = random.choices((".","#"))
+            random.seed((y+4)+((x+5)*100))
             atrib = random.randint(0,1000)
-            if (y+(x*100)) in opendoors:
-                opendoors.remove(y+(x*100))
-            elif atrib < 80:
-                opendoors.append(y+(x*100))
-            y = y + 1
-            x = x - 1
-            random.seed(y+(x*100))
-            rnd = random.choices((".","#"))
+            if ((y+4)+((x+5)*100)) in opendoors:
+                opendoors.remove((y+4)+((x+5)*100))
+            elif ((y+4)+((x+5)*100)) in doors:
+                opendoors.append((y+4)+((x+5)*100))
+            random.seed((y+5)+((x+4)*100))
             atrib = random.randint(0,1000)
-            if (y+(x*100)) in opendoors:
-                opendoors.remove(y+(x*100))
-            elif atrib < 80:
-                opendoors.append(y+(x*100))
-            y = y + 1
-            x = x + 1
-            random.seed(y+(x*100))
-            rnd = random.choices((".","#"))
+            if ((y+5)+((x+4)*100)) in opendoors:
+                opendoors.remove((y+5)+((x+4)*100))
+            elif ((y+5)+((x+4)*100)) in doors:
+                opendoors.append((y+5)+((x+4)*100))
+            random.seed((y+6)+((x+5)*100))
             atrib = random.randint(0,1000)
-            if (y+(x*100)) in opendoors:
-                opendoors.remove(y+(x*100))
-            elif atrib < 80:
-                opendoors.append(y+(x*100))
-            y = y - 1
-            x = x + 1
-            random.seed(y+(x*100))
-            rnd = random.choices((".","#"))
+            if ((y+6)+((x+5)*100)) in opendoors:
+                opendoors.remove((y+6)+((x+5)*100))
+            elif ((y+6)+((x+5)*100)) in doors:
+                opendoors.append((y+6)+((x+5)*100))
+            random.seed((y+5)+((x+6)*100))
             atrib = random.randint(0,1000)
-            if (y+(x*100)) in opendoors:
-                opendoors.remove(y+(x*100))
-            elif atrib < 80:
-                opendoors.append(y+(x*100))
-            y = y - 5
-            x = x - 6
+            if ((y+5)+((x+6)*100)) in opendoors:
+                opendoors.remove((y+5)+((x+6)*100))
+            elif ((y+5)+((x+6)*100)) in doors:
+                opendoors.append((y+5)+((x+6)*100))
+            print(opendoors)
             z3 = 0
         if z2 == 0 and y == 0 + aps:
             random.seed((y+5)+((x+5)*100))
-            rnd = random.choices((".","#"))
-            if rnd == ["#"]:
-                print("yeet")
+            rnd = random.choices((".","#","#"))
+            atrib = random.randint(0,1000)
+            if rnd == ["#"] and ((y+5)+((x+5)*100)) in walls or ((y+5)+((x+5)*100)) in doors and ((y+5)+((x+5)*100)) not in opendoors:
                 z3 = 6
         if z3 == 0:
             random.seed(y+(x*100))
-            rnd = random.choices((".","#"))
+            rnd = random.choices((".","#","#"))
             atrib = random.randint(0,1000)
             if rnd == ["#"]:
-                walls.append(y+(x*100))
                 random.seed((y+1)+(x*100))
-                rnd = random.choices((".","#"))
+                rnd = random.choices((".","#","#"))
                 if rnd == ["#"]:
                     srndwalls.append(4)
                 random.seed((y-1)+(x*100))
-                rnd = random.choices((".","#"))
+                rnd = random.choices((".","#","#"))
                 if rnd == ["#"]:
                     srndwalls.append(8)
                 random.seed((y+1)+((x+1)*100))
-                rnd = random.choices((".","#"))
+                rnd = random.choices((".","#","#"))
                 if rnd == ["#"]:
                     srndwalls.append(5)
                 random.seed((y+1)+((x-1)*100))
-                rnd = random.choices((".","#"))
+                rnd = random.choices((".","#","#"))
                 if rnd == ["#"]:
                     srndwalls.append(3)
                 random.seed(y+((x-1)*100))
-                rnd = random.choices((".","#"))
+                rnd = random.choices((".","#","#"))
                 if rnd == ["#"]:
                     srndwalls.append(2)
                 random.seed(y+((x+1)*100))
-                rnd = random.choices((".","#"))
+                rnd = random.choices((".","#","#"))
                 if rnd == ["#"]:
                     srndwalls.append(6)
                 random.seed((y-1)+((x+1)*100))
-                rnd = random.choices((".","#"))
+                rnd = random.choices((".","#","#"))
                 if rnd == ["#"]:
                     srndwalls.append(7)
                 random.seed((y-1)+((x-1)*100))
-                rnd = random.choices((".","#"))
+                rnd = random.choices((".","#","#"))
                 if rnd == ["#"]:
                     srndwalls.append(1)
-                if len(srndwalls) > 2 and [2,4] in srndwalls or len(srndwalls) > 2 and 2 in srndwalls or len(srndwalls) > 2 and 6 in srndwalls or len(srndwalls) > 2 and 8 in srndwalls:
+                if len(srndwalls) > 12 and (2 or 4 or 6 or 8) in srndwalls:
                     rnd = "#"
+                    walls.append(y+(x*100))
                     z3 = 2
-                elif len(srndwalls) > 2 and 4 in srndwalls and y == 5 and x == 5 or len(srndwalls) > 2 and 2 in srndwalls and y == 5 and x == 5 or len(srndwalls) > 2 and 6 in srndwalls and y == 5 and x == 5 or len(srndwalls) > 2 and 8 in srndwalls and y == 5 and x == 5:
+                elif len(srndwalls) > 2 and y == 5 and x == 5 and (4 or 2 or 6 or 8) in srndwalls :
                     z3 = 2
                 else:
                     z3 = 2
-                    rnd = "#"
+                    rnd = "."
+                    if z2 == 5 and y == 5 + aps:
+                        rnd = "@"
             else:
                 rnd = "."
                 z3 = 1
                 srndwalls.clear()
         if z3 == 1:
             random.seed(y+(x*100))
-            rnd = random.choices((".","#"))
+            rnd = random.choices((".","#","#"))
             atrib = random.randint(0,1000)
             if atrib < 80 and y+(x*100) not in opendoors:
                 rnd = "C"
+                doors.append(y+(x*100))
             elif (y+((x+1)*100)) in enemie and z2 > 5:
                 if turn == 1:
                     if (y+(x*100)) not in walls:
@@ -144,7 +135,7 @@ while True:
                         rnd = "E"
                 if turn == 0:
                     rnd = "E"
-            elif (y+1)+(x*100) in enemie and z2 == 5 and y == 5 + aps or (y-1)+(x*100) in enemie and z2 == 5 and y == 5 + aps or (y+((x+1)*100)) in enemie and z2 == 5 and y == 5 + aps or (y+((x-1)*100)) in enemie and z2 == 5 and y == 5 + aps:
+            elif ((y+1)+(x*100) or (y-1)+(x*100) or (y+((x+1)*100)) or (y+((x-1)*100))) in enemie and z2 == 5 and y == 5 + aps:
                 gmvr = 1
             elif (y+(x*100)) in enemie and z2 == 5 and y < 5 + aps:
                 if turn == 1:
@@ -170,7 +161,7 @@ while True:
                     enemie.append(y+(x*100))
                     enemiel.remove(y+(x*100))
                 rnd = "E"
-            elif atrib > 80 and atrib < 130 and (y+(x*100)) not in enemies:
+            elif atrib > 80 and atrib < 81 and (y+(x*100)) not in enemies:
                 rnd = "E"
                 enemie.append(y+(x*100))
             elif y+(x*100) in opendoors:
@@ -206,8 +197,20 @@ while True:
                     x = x - 1
                 elif inp == "4":
                     y = y + 1
+                elif inp == "8":
+                    x = x + 1
+                elif inp == "1":
+                    x = x - 1
+                    y = y + 1
+                elif inp == "3":
+                    y = y - 1
+                    x = x - 1
+                elif inp == "9":
+                    x = x + 1
+                    y = y - 1
                 else:
                     x = x + 1
+                    y = y + 1
                 print("not a valid move")
                 z3 = 0
                 enl = 1
@@ -244,12 +247,13 @@ while True:
                 if inp == "o":
                     z3 = 5
                     z2 = 0
+            if inp != "o":
+                z3 = 0
             enl = 0
             aps = y
             ntclsd = 0
             if turn == 0:
                 turn = 2
-            z3 = 5
             turn = turn - 1
         if z2 == 11 and z3 == 0 and gmvr == 1:
             print("\n\n\n     GAME OVER\n\n\n")
@@ -258,13 +262,5 @@ while True:
 
 
             
-
-
-
-
-
-
-            
-
 
 
