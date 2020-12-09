@@ -64,6 +64,7 @@ while True:
             random.seed((y+5)+((x+5)*100))
             rnd = random.choices((".","#"))
             if rnd == ["#"]:
+                print("yeet")
                 z3 = 6
         if z3 == 0:
             random.seed(y+(x*100))
@@ -103,7 +104,7 @@ while True:
                 rnd = random.choices((".","#"))
                 if rnd == ["#"]:
                     srndwalls.append(1)
-                if len(srndwalls) > 2 and 4 in srndwalls or len(srndwalls) > 2 and 2 in srndwalls or len(srndwalls) > 2 and 6 in srndwalls or len(srndwalls) > 2 and 8 in srndwalls:
+                if len(srndwalls) > 2 and [2,4] in srndwalls or len(srndwalls) > 2 and 2 in srndwalls or len(srndwalls) > 2 and 6 in srndwalls or len(srndwalls) > 2 and 8 in srndwalls:
                     rnd = "#"
                     z3 = 2
                 elif len(srndwalls) > 2 and 4 in srndwalls and y == 5 and x == 5 or len(srndwalls) > 2 and 2 in srndwalls and y == 5 and x == 5 or len(srndwalls) > 2 and 6 in srndwalls and y == 5 and x == 5 or len(srndwalls) > 2 and 8 in srndwalls and y == 5 and x == 5:
@@ -143,7 +144,7 @@ while True:
                         rnd = "E"
                 if turn == 0:
                     rnd = "E"
-            elif (y+1)+(x*100) in enemie and z2 == 5 and y == 5 or (y-1)+(x*100) in enemie and z2 == 5 and y == 5 or (y+((x+1)*100)) in enemie and z2 == 5 and y == 5 or (y+((x-1)*100)) in enemie and z2 == 5 and y == 5:
+            elif (y+1)+(x*100) in enemie and z2 == 5 and y == 5 + aps or (y-1)+(x*100) in enemie and z2 == 5 and y == 5 + aps or (y+((x+1)*100)) in enemie and z2 == 5 and y == 5 + aps or (y+((x-1)*100)) in enemie and z2 == 5 and y == 5 + aps:
                 gmvr = 1
             elif (y+(x*100)) in enemie and z2 == 5 and y < 5 + aps:
                 if turn == 1:
@@ -196,7 +197,6 @@ while True:
             mapgen.clear()
             z2 = z2 + 1
         if z2 == 11 and z3 == 0 and gmvr == 0 or z3 == 6:
-            inp = input("action")
             if z3 != 6:
                 x = x - 11
             else:
@@ -210,37 +210,41 @@ while True:
                     x = x + 1
                 print("not a valid move")
                 z3 = 0
-            if inp == "6":
-                y = y + 1
-                z2 = 0
-            elif inp == "2":
-                x = x + 1
-                z2 = 0
-            elif inp == "4":
-                y = y - 1
-                z2 = 0
-            elif inp == "8":
-                x = x - 1
-                z2 = 0
-            elif inp == "7":
-                x = x - 1
-                y = y - 1
-                z2 = 0
-            elif inp == "9":
-                x = x - 1
-                y = y + 1
-                z2 = 0
-            elif inp == "3":
-                x = x + 1
-                y = y + 1
-                z2 = 0
-            elif inp == "1":
-                y = y - 1
-                x = x + 1
-                z2 = 0
-            if inp == "o":
-                z3 = 5
-                z2 = 0
+                enl = 1
+            if enl == 0:
+                inp = input("action")
+                if inp == "6":
+                    y = y + 1
+                    z2 = 0
+                elif inp == "2":
+                    x = x + 1
+                    z2 = 0
+                elif inp == "4":
+                    y = y - 1
+                    z2 = 0
+                elif inp == "8":
+                    x = x - 1
+                    z2 = 0
+                elif inp == "7":
+                    x = x - 1
+                    y = y - 1
+                    z2 = 0
+                elif inp == "9":
+                    x = x - 1
+                    y = y + 1
+                    z2 = 0
+                elif inp == "3":
+                    x = x + 1
+                    y = y + 1
+                    z2 = 0
+                elif inp == "1":
+                    y = y - 1
+                    x = x + 1
+                    z2 = 0
+                if inp == "o":
+                    z3 = 5
+                    z2 = 0
+            enl = 0
             aps = y
             ntclsd = 0
             if turn == 0:
@@ -250,6 +254,13 @@ while True:
         if z2 == 11 and z3 == 0 and gmvr == 1:
             print("\n\n\n     GAME OVER\n\n\n")
             gmvr = 2
+
+
+
+            
+
+
+
 
 
 
