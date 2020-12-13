@@ -1,3 +1,32 @@
+from ctypes import WinDLL, Structure, sizeof, byref
+from ctypes.wintypes import SHORT, WCHAR, UINT, ULONG, DWORD
+kernel32_dll = WinDLL("kernel32.dll")
+LF_FACESIZE = 32
+STD_OUTPUT_HANDLE = -11
+class COORD(Structure):
+    _fields_ = [
+        ("X", SHORT),
+        ("Y", SHORT),
+    ]
+class CONSOLE_FONT_INFOEX(Structure):
+    _fields_ = [
+        ("cbSize", ULONG),
+        ("nFont", DWORD),
+        ("dwFontSize", COORD),
+        ("FontFamily", UINT),
+        ("FontWeight", UINT),
+        ("FaceName", WCHAR * LF_FACESIZE)
+    ]
+get_std_handle_func = kernel32_dll.GetStdHandle
+get_current_console_font_ex_func = kernel32_dll.GetCurrentConsoleFontEx
+set_current_console_font_ex_func = kernel32_dll.SetCurrentConsoleFontEx
+font = CONSOLE_FONT_INFOEX()
+font.cbSize = sizeof(CONSOLE_FONT_INFOEX)
+stdout = get_std_handle_func(STD_OUTPUT_HANDLE)
+font.dwFontSize.X = 30
+font.dwFontSize.Y = 64
+set_current_console_font_ex_func(stdout, False, byref(font))
+
 allpcs = [61,62,63,64,65,66,67,68,11,12,13,14,15,16,17,18,72,77,2,7,73,76,3,6,71,78,1,8,74,4,75,5]
 wpieces = [61,62,63,64,65,66,67,68,72,77,73,76,71,78,74,75]
 wpawn = [61,62,63,64,65,66,67,68]
@@ -115,13 +144,13 @@ while True:
             y = y - 2
         cnt = 0
         if pcsbox == 0 and turn == 0:
-            print(*mem,"          1  2  3  4  5  6  7  8 ")
+            print(*mem,"       1  2  3  4  5  6  7  8 ")
         elif turn == 0:
-            print(*mem,"         ",*board)
+            print(*mem,"      ",*board)
         if turn == 1 and y < 9:
-            print(*mem,"          8  7  6  5  4  3  2  1")
+            print(*mem,"       8  7  6  5  4  3  2  1")
         elif turn == 1:
-            print(*mem,"         ",*board)
+            print(*mem,"      ",*board)
         pcsbox = 1
         board.clear()
         mem.clear()
@@ -170,7 +199,7 @@ while True:
                         allpcs.append(inp2)
                         wpieces.remove(inp1)
                         wpieces.append(inp2)
-                    elif (inp1 in wpawn and inp2 not in allpcs and inp1 == inp2 + 10 or (inp1 in [61,62,63,64,65,66,67,68] and inp1 == inp2 + 20)):
+                    elif (inp1 in wpawn and inp2 not in allpcs and inp1 == inp2 + 10 or (inp1 in [61,62,63,64,65,66,67,68] and inp1 == inp2 + 20 and inp1 - 10 not in allpcs)):
                         wpawn.remove(inp1)
                         wpawn.append(inp2)
                         allpcs.remove(inp1)
@@ -199,6 +228,7 @@ while True:
                         while inp3 in bischopmv and inp1 != inp4 and pcsbox == 0:
                             if inp4 in allpcs and inp2 != inp4:
                                 pcsbox = 1
+                                break
                             elif inp2 in allpcs and inp2 not in wpieces:
                                 wcheck()
                                 wbischop.remove(inp1)
@@ -239,6 +269,7 @@ while True:
                         while inp3 in rookmv and inp1 != inp4 and pcsbox == 0:
                             if inp4 in allpcs and inp2 != inp4:
                                 pcsbox = 1
+                                break
                             elif inp2 in allpcs and inp2 not in wpieces:
                                 wcheck()
                                 wrook.remove(inp1)
@@ -287,6 +318,7 @@ while True:
                         while (inp3 in rookmv or bischopmv) and inp1 != inp4 and pcsbox == 0:
                             if inp4 in allpcs and inp2 != inp4:
                                 pcsbox = 1
+                                break
                             elif inp2 in allpcs and inp2 not in wpieces:
                                 wcheck()
                                 wqueen.remove(inp1)
@@ -450,7 +482,7 @@ while True:
                         bpawn.append(inp2)
                         allpcs.remove(inp1)
                         allpcs.append(inp2)
-                    elif inp1 in bpawn and inp1 in [11,12,13,14,15,16,17,18] and inp1 == (inp2 - 20) or inp1 in bpawn and inp1 == (inp2 - 10) and inp2 not in allpcs or inp1 in bpawn and inp1 - inp2 in bpawncmv:
+                    elif inp1 in bpawn and inp1 in [11,12,13,14,15,16,17,18] and inp1 == inp2 - 20 and inp1 + 10 not in allpcs or inp1 in bpawn and inp1 == inp2 - 10 and inp2 not in allpcs or inp1 in bpawn and inp1 - inp2 in bpawncmv:
                         if inp2 in allpcs:
                             allpcs.remove(inp2)
                         bcheck()
@@ -458,7 +490,6 @@ while True:
                         allpcs.append(inp2)
                         bpawn.remove(inp1)
                         bpawn.append(inp2)
-                        turn = 0
                     elif inp1 in bknight and inp1 - inp2 in knightmv:
                         allpcs.remove(inp1)
                         allpcs.append(inp2)
@@ -478,6 +509,7 @@ while True:
                         while inp3 in bischopmv and inp1 != inp4 and pcsbox == 0:
                             if inp4 in allpcs and inp2 != inp4:
                                 pcsbox = 1
+                                break
                             elif inp2 in wpieces:
                                 bcheck()
                                 bbischop.remove(inp1)
@@ -516,6 +548,7 @@ while True:
                         while inp3 in rookmv and inp1 != inp4 and pcsbox == 0:
                             if inp4 in allpcs and inp4 != inp2:
                                 pcsbox = 1
+                                break
                             elif inp2 in wpieces:
                                 bcheck()
                                 brook.remove(inp1)
@@ -562,6 +595,7 @@ while True:
                         while (inp3 in rookmv or bischopmv) and inp1 != inp4 and pcsbox == 0:
                             if inp4 in allpcs and inp4 != inp2:
                                 pcsbox = 1
+                                break
                             elif inp2 in wpieces:
                                 bcheck()
                                 bqueen.remove(inp1)
