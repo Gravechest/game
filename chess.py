@@ -1,5 +1,6 @@
 from ctypes import WinDLL, Structure, sizeof, byref
 from ctypes.wintypes import SHORT, WCHAR, UINT, ULONG, DWORD
+import random
 kernel32_dll = WinDLL("kernel32.dll")
 LF_FACESIZE = 32
 STD_OUTPUT_HANDLE = -11
@@ -24,7 +25,7 @@ font = CONSOLE_FONT_INFOEX()
 font.cbSize = sizeof(CONSOLE_FONT_INFOEX)
 stdout = get_std_handle_func(STD_OUTPUT_HANDLE)
 font.dwFontSize.X = 30
-font.dwFontSize.Y = 64
+font.dwFontSize.Y = 60
 set_current_console_font_ex_func(stdout, False, byref(font))
 
 allpcs = [61,62,63,64,65,66,67,68,11,12,13,14,15,16,17,18,72,77,2,7,73,76,3,6,71,78,1,8,74,4,75,5]
@@ -64,8 +65,13 @@ brd = 0
 turn = 0
 inp2 = 0
 impmv = 0
+bot = 0
 
 mem = []
+
+select = input("bot of 1v1?")
+if select == "bot":
+    bot = 1
 def wcheck():
     if inp2 in bpawn:
         bpawn.remove(inp2)
@@ -143,23 +149,45 @@ while True:
         else:
             y = y - 2
         cnt = 0
-        if pcsbox == 0 and turn == 0:
-            print(*mem,"       1  2  3  4  5  6  7  8 ")
-        elif turn == 0:
-            print(*mem,"      ",*board)
-        if turn == 1 and y < 9:
-            print(*mem,"       8  7  6  5  4  3  2  1")
-        elif turn == 1:
-            print(*mem,"      ",*board)
+        if impmv == 0 and bot == 1 or bot == 0:
+            if pcsbox == 0 and turn == 0:
+                print(*mem,"       1  2  3  4  5  6  7  8 ")
+            elif turn == 0:
+                print(*mem,"      ",*board)
+            if turn == 1 and y < 9:
+                print(*mem,"       8  7  6  5  4  3  2  1")
+            elif turn == 1:
+                print(*mem,"      ",*board)
+            elif y > 70:
+                print("\n")
         pcsbox = 1
+        impmv = 0
         board.clear()
         mem.clear()
         if y == 80 or y == -1:
             pcsbox = 0
             y = 0
+
             if turn == 0:
-                inp1 = int(input("move?"))
-                inp2 = int(input("to?"))
+                if bot == 0:
+                    inp1 = int(input("move?"))
+                    inp2 = int(input("to?"))
+                else:
+                    rndmv = random.choice(wpieces)
+                    inp1 = rndmv
+                    if inp1 in wpawn:
+                        inp2 = inp1 + random.choice([-10,-20])
+                    if inp1 in wknight:
+                        inp2 = inp1 + random.choice([8,12,19,21,-8,-12,-19,-21])
+                    if inp1 in wbischop:
+                        inp2 = inp1 + random.choice([11,22,33,44,55,66,77,-11,-22,-33,-44,-55,-66,-77,9,18,27,36,45,54,63,-9,-18,-27,-36,-45,-54,-63])
+                    if inp1 in wrook:
+                        inp2 = inp1 + random.choice([10,20,30,40,50,60,70,-10,-20,-30,-40,-50,-60,-70,1,2,3,4,5,6,7,-1,-2,-3,-4,-5,-6,-7])
+                    if inp1 in wqueen:
+                        inp2 = inp1 + random.choice([10,20,30,40,50,60,70,-10,-20,-30,-40,-50,-60,-70,1,2,3,4,5,6,7,-1,-2,-3,-4,-5,-6,-7,11,22,33,44,55,66,77,-11,-22,-33,-44,-55,-66,-77,9,18,27,36,45,54,63,-9,-18,-27,-36,-45,-54,-63])
+                    if inp1 in wking:
+                        inp2 = inp1 + random.choice([1,-1,9,10,11,-9,-10,-11])
+                    print(inp1,inp2)
                 if inp2 in forbiddennmbrs or inp2 > 78 or inp2 < 1:
                     print("move is not valid because to destination is outside the chessboard")
                     impmv = 0
@@ -715,7 +743,7 @@ while True:
                         turn = 0
                     else:
                         turn = 1
-                    impmv = 0
+
                     pcsbox = 0
 
 
