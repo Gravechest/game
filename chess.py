@@ -24,12 +24,13 @@ set_current_console_font_ex_func = kernel32_dll.SetCurrentConsoleFontEx
 font = CONSOLE_FONT_INFOEX()
 font.cbSize = sizeof(CONSOLE_FONT_INFOEX)
 stdout = get_std_handle_func(STD_OUTPUT_HANDLE)
-font.dwFontSize.X = 30
-font.dwFontSize.Y = 60
+font.dwFontSize.X = 15
+font.dwFontSize.Y = 30
 set_current_console_font_ex_func(stdout, False, byref(font))
 
 allpcs = [61,62,63,64,65,66,67,68,11,12,13,14,15,16,17,18,72,77,2,7,73,76,3,6,71,78,1,8,74,4,75,5]
 wpieces = [61,62,63,64,65,66,67,68,72,77,73,76,71,78,74,75]
+bpieces = []
 wpawn = [61,62,63,64,65,66,67,68]
 bpawn = [11,12,13,14,15,16,17,18]
 wknight = [72,77]
@@ -66,6 +67,9 @@ turn = 0
 inp2 = 0
 impmv = 0
 bot = 0
+for pn in allpcs:
+    if pn not in wpieces:
+        bpieces.append(pn)
 
 mem = []
 
@@ -177,16 +181,652 @@ while True:
                     inp1 = rndmv
                     if inp1 in wpawn:
                         inp2 = inp1 + random.choice([-10,-20])
+                        for cn in bpieces:
+                            if cn in bpawn:
+                                for cnn in bpawncmv:
+                                    if cn - cnn in wpieces:
+                                        impmv = 2
+                            if cn in bknight:
+                                for cnn in knightmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 2
+                            if cn in bbischop:
+                                for cnn in bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                print(cn+cnn)
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in brook:
+                                for cnn in rookmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bqueen:
+                                for cnn in rookmv or bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bking:
+                                for cnn in kingmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 0
+                            if impmv == 2:
+                                inp2 = 0
+                            impmv = 0
                     if inp1 in wknight:
                         inp2 = inp1 + random.choice([8,12,19,21,-8,-12,-19,-21])
+                        for cn in bpieces:
+                            if cn in bpawn:
+                                for cnn in bpawncmv:
+                                    if cn - cnn in wpieces:
+                                        impmv = 2
+                            if cn in bknight:
+                                for cnn in knightmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 2
+                            if cn in bbischop:
+                                for cnn in bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                print(cn+cnn)
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in brook:
+                                for cnn in rookmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bqueen:
+                                for cnn in rookmv or bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bking:
+                                for cnn in kingmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 0
+                            if impmv == 2:
+                                inp2 = 0
+                            impmv = 0
                     if inp1 in wbischop:
                         inp2 = inp1 + random.choice([11,22,33,44,55,66,77,-11,-22,-33,-44,-55,-66,-77,9,18,27,36,45,54,63,-9,-18,-27,-36,-45,-54,-63])
+                        for cn in bpieces:
+                            if cn in bpawn:
+                                for cnn in bpawncmv:
+                                    if cn - cnn in wpieces:
+                                        impmv = 2
+                            if cn in bknight:
+                                for cnn in knightmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 2
+                            if cn in bbischop:
+                                for cnn in bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                print(cn+cnn)
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in brook:
+                                for cnn in rookmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bqueen:
+                                for cnn in rookmv or bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bking:
+                                for cnn in kingmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 0
+                            if impmv == 2:
+                                inp2 = 0
+                            impmv = 0
                     if inp1 in wrook:
                         inp2 = inp1 + random.choice([10,20,30,40,50,60,70,-10,-20,-30,-40,-50,-60,-70,1,2,3,4,5,6,7,-1,-2,-3,-4,-5,-6,-7])
+                        for cn in bpieces:
+                            if cn in bpawn:
+                                for cnn in bpawncmv:
+                                    if cn - cnn in wpieces:
+                                        impmv = 2
+                            if cn in bknight:
+                                for cnn in knightmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 2
+                            if cn in bbischop:
+                                for cnn in bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                print(cn+cnn)
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in brook:
+                                for cnn in rookmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bqueen:
+                                for cnn in rookmv or bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bking:
+                                for cnn in kingmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 0
+                            if impmv == 2:
+                                inp2 = 0
+                            impmv = 0
                     if inp1 in wqueen:
                         inp2 = inp1 + random.choice([10,20,30,40,50,60,70,-10,-20,-30,-40,-50,-60,-70,1,2,3,4,5,6,7,-1,-2,-3,-4,-5,-6,-7,11,22,33,44,55,66,77,-11,-22,-33,-44,-55,-66,-77,9,18,27,36,45,54,63,-9,-18,-27,-36,-45,-54,-63])
+                        for cn in bpieces:
+                            if cn in bpawn:
+                                for cnn in bpawncmv:
+                                    if cn - cnn in wpieces:
+                                        impmv = 2
+                            if cn in bknight:
+                                for cnn in knightmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 2
+                            if cn in bbischop:
+                                for cnn in bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                print(cn+cnn)
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in brook:
+                                for cnn in rookmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bqueen:
+                                for cnn in rookmv or bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bking:
+                                for cnn in kingmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 0
+                            if impmv == 2:
+                                inp2 = 0
+                            impmv = 0
                     if inp1 in wking:
                         inp2 = inp1 + random.choice([1,-1,9,10,11,-9,-10,-11])
+                        for cn in bpieces:
+                            if cn in bpawn:
+                                for cnn in bpawncmv:
+                                    if cn - cnn in wpieces:
+                                        impmv = 2
+                            if cn in bknight:
+                                for cnn in knightmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 2
+                            if cn in bbischop:
+                                for cnn in bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                print(cn+cnn)
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in brook:
+                                for cnn in rookmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bqueen:
+                                for cnn in rookmv or bischopmv:
+                                    if cn + cnn in wpieces:
+                                        if cnn in [10,20,30,40,50,60,70]:
+                                            while cnn != 10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-10,-20,-30,-40,-50,-60,-70]:
+                                            while cnn != -10 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 10
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [1,2,3,4,5,6,7]:
+                                            while cnn != 1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-1,-2,-3,-4,-5,-6,-7]:
+                                            while cnn != -1 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 1
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [11,22,33,44,55,66,77]:
+                                            while cnn != 11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-11,-22,-33,-44,-55,-66,-77]:
+                                            while cnn != -11 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn + 11
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [9,18,27,36,45,54,63]:
+                                            while cnn != 9 and cnn + cn not in forbiddennmbrs:
+                                                cnn = cnn - 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                                        if cnn in [-9,-18,-27,-36,-45,-54,-63]:
+                                            while cnn != -9:
+                                                cnn = cnn + 9
+                                                if cn + cnn in allpcs:
+                                                    impmv = 1
+                            if cn in bking:
+                                for cnn in kingmv:
+                                    if cn + cnn in wpieces:
+                                        impmv = 0
+                            if impmv == 2:
+                                inp2 = 0
+                            impmv = 0
                     print(inp1,inp2)
                 if inp2 in forbiddennmbrs or inp2 > 78 or inp2 < 1:
                     print("move is not valid because to destination is outside the chessboard")
@@ -234,7 +874,7 @@ while True:
                         allpcs.append(inp2)
                         wpieces.remove(inp1)
                         wpieces.append(inp2)
-                    elif inp1 in wknight and inp1 - inp2 in knightmv:
+                    elif inp1 in wknight and inp1 - inp2 in knightmv and inp2 not in wpieces:
                         wcheck()
                         wknight.remove(inp1)
                         wknight.append(inp2)
@@ -242,7 +882,7 @@ while True:
                         allpcs.append(inp2)
                         wpieces.remove(inp1)
                         wpieces.append(inp2)
-                    elif inp1 in wbischop and inp1 - inp2 in bischopmv:
+                    elif inp1 in wbischop and inp1 - inp2 in bischopmv and inp2 not in wpieces:
                         inp3 = inp1 - inp2
                         inp4 = inp2
                         if inp3 in [11,22,33,44,55,66,77,88]:
@@ -283,7 +923,7 @@ while True:
                         if pcsbox == 1:
                             print("a piece is blocking the path")
                             impmv = 1
-                    elif inp1 in wrook and inp1 - inp2 in rookmv:
+                    elif inp1 in wrook and inp1 - inp2 in rookmv and inp2 not in wpieces:
                         inp3 = inp1 - inp2
                         inp4 = inp2
                         if inp3 in [10,20,30,40,50,60,70]:
@@ -324,7 +964,7 @@ while True:
                         if pcsbox == 1:
                             print("a piece is blocking the path")
                             impmv = 1
-                    elif inp1 in wqueen and (inp1 - inp2 in rookmv or bischopmv):
+                    elif inp1 in wqueen and (inp1 - inp2 in rookmv or bischopmv) and inp2 not in wpieces:
                         inp3 = inp1 - inp2
                         inp4 = inp2
                         if inp3 in [10,20,30,40,50,60,70]:
@@ -381,7 +1021,7 @@ while True:
                         if pcsbox == 1:
                             print("a piece is blocking the path")
                             impmv = 1
-                    elif inp1 in wking and inp1 - inp2 in kingmv or inp1 in wking and inp2 in wcastlingmv and inp1 == 75:
+                    elif inp1 in wking and inp1 - inp2 in kingmv and (inp2 not in wpieces or inp1 in wking and inp2 in wcastlingmv and inp1 == 75):
                         inp3 = inp2
                         chkchkmate = 1
                         if inp2 in wcastlingmv and inp1 == 75:
@@ -656,7 +1296,7 @@ while True:
                         if pcsbox == 1:
                             print("a piece is blocking the path")
                             impmv = 1
-                    elif inp1 in bking and inp1 - inp2 in kingmv or inp1 in bking and inp2 in bcastlingmv and inp1 == 5:
+                    elif inp1 in bking and inp1 - inp2 in kingmv and (inp2 not in bpieces or inp1 in bking and inp2 in bcastlingmv and inp1 == 5):
                         chkchkmate = 1
                         inp3 = inp2
                         if inp2 in bcastlingmv and inp1 == 5:
@@ -745,6 +1385,13 @@ while True:
                         turn = 1
 
                     pcsbox = 0
+                    for pn in allpcs:
+                        if pn not in wpieces:
+                            bpieces.append(pn)
+                    for pn in bpieces:
+                        if pn not in allpcs or pn in wpieces:
+                            bpieces.remove(pn)
+                        
 
 
                     
