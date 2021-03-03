@@ -1,0 +1,74 @@
+mapgen = [[5,5,0],[3,3,1],[6,3,1]]
+cache = []
+y = 0
+clear = 1
+while True:
+    while y < 110:
+        for i in mapgen:
+            if int(y / 11) == i[0] and y % 11 == i[1]:
+                if i[2] == 0:
+                    cache.append("y")
+                    clear = 0
+                if i[2] == 1:
+                    clear = 0
+                    xcoor = i[0] - mapgen[0][0]
+                    ycoor = i[1] - mapgen[0][1]
+                    absxcoor = abs(xcoor)
+                    absycoor = abs(ycoor)
+                    maxcoor = max(absxcoor,  absycoor)
+                    mincoor = min(absxcoor,  absycoor)
+                    sub = mincoor / maxcoor
+                    while maxcoor > 0:
+                        mincoor -= sub
+                        maxcoor -= 1
+                        mincoorf = round(mincoor)
+                        if absxcoor > absycoor:
+                            if ycoor < 0:
+                                mincoorf = -mincoorf
+                            if xcoor < 0:
+                                maxcoor = -maxcoor
+                            for i2 in mapgen:
+                                if i2[1] == mapgen[0][1] + mincoorf and i2[0] == mapgen[0][0] + maxcoor and i2[2] == 1:
+                                    clear = 2
+                                    break
+                            if ycoor < 0:
+                                mincoorf = -mincoorf
+                            if xcoor < 0:
+                                maxcoor = -maxcoor
+                        else:
+                            if xcoor < 0:
+                                mincoorf = -mincoorf
+                            if ycoor < 0:
+                                maxcoor = -maxcoor
+                            for i2 in mapgen:
+                                if i2[0] == mincoorf + mapgen[0][0] and i2[1] == mapgen[0][1] + maxcoor and i2[2] == 1:
+                                    clear = 2
+                                    break
+                            if xcoor < 0:
+                                mincoorf = -mincoorf
+                            if ycoor < 0:
+                                maxcoor = -maxcoor
+                    if clear == 0:
+                        cache.append("#")
+                    if clear == 2:
+                        cache.append("*")
+        if y % 11 == 10:
+            print(*cache)
+            cache.clear()
+        if clear == 1:
+            cache.append(".")
+        y += 1
+        clear = 1
+    y = 0
+    inp = input(">")
+    for i in mapgen:
+        if i[2] == 0:
+            if inp == "right":
+                i[1] += 1
+            if inp == "left":
+                i[1] -= 1
+            if inp == "down":
+                i[0] += 1
+            if inp == "up":
+                i[0] -= 1
+            
