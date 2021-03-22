@@ -2,7 +2,7 @@
 #include <WinSock2.h>
 #pragma comment (lib,"ws2_32.lib")
 #include <thread>
-char buf[4];
+char buf[8],coor[2];
 char yeet;
 char map[100];
 void search() {
@@ -36,11 +36,19 @@ int main() {
 				printf("2");
 				break;
 			}
-			if (i % 10 == 0) {
+			if (i % 10 == 9) {
 				printf("\n");
 			}
 		}
-		std::cin >> yeet;
-		send(clientsocket, buf, yeet,0);
+		printf("\x1b[H");
+		for (int i = 0;i < 2;){
+			recv(clientsocket, buf, 8, 0);
+			if (buf[0] != 0) {
+				coor[i] = buf[0] - 49;
+				i++;
+			}
+		}
+		map[coor[0] + coor[1] * 10] = 2;
+		std::cout << "yeet";
 	}
 }
